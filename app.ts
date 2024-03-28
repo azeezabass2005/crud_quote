@@ -2,9 +2,11 @@ import express, { Application, Request, Response } from 'express'
 import 'dotenv/config'
 import notfoundRouter from './routes/not-found'
 import authRouter from './routes/auth'
+import protectedRouter from './routes/root'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
+import { verifyJWT } from './middlewares/verifyJWT'
 
 const app: Application = express()
 
@@ -18,6 +20,11 @@ app.get("/", (req: Request, res: Response) => {
 })
 
 app.use("/auth", authRouter)
+
+app.use(verifyJWT)
+
+app.use("/protected-route", protectedRouter)
+
 
 app.use("*", notfoundRouter)
 
