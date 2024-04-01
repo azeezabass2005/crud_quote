@@ -56,3 +56,12 @@ export const handleLogin = async (req: Request, res: Response) => {
   throw error
  }
 }
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    return res.status(200).send("You attempted to update the user")
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}

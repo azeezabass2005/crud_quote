@@ -5,9 +5,10 @@ export interface UserDocumentInt extends mongoose.Document {
   lastName: string,
   password: string,
   email: string,
+  deliveryAddress: string,
+  orders: string[] ,
   createdAt: string,
   updatedAt: string,
-
 }
 
 const userSchema: mongoose.Schema<UserDocumentInt> = new mongoose.Schema({
@@ -15,6 +16,13 @@ const userSchema: mongoose.Schema<UserDocumentInt> = new mongoose.Schema({
   lastName: { type: String, require: true },
   email: { type: String, require: true, unique: true },
   password: { type: String, require: true },
+  deliveryAddress: { type: String },
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order"
+    }
+  ]
 }, { timestamps: true })
 
 const UserModel = mongoose.model('User', userSchema)
