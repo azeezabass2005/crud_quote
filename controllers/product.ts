@@ -1,6 +1,6 @@
 import { Response } from "express";
 import ProductModel from "../model/product";
-import { CustomRequest } from "../middlewares/verifyJWT";
+import { CustomRequest } from "../middlewares/verify-jwt";
 
 
 export const handleCreateProduct = async (req: CustomRequest, res: Response) => {

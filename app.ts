@@ -6,7 +6,7 @@ import protectedRouter from './routes/root'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import { verifyJWT } from './middlewares/verifyJWT'
+import { verifyJWT } from './middlewares/verify-jwt'
 
 const app: Application = express()
 
