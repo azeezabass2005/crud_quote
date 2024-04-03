@@ -8,7 +8,7 @@ import 'dotenv/config'
 export const createUser = async (req: Request, res: Response) => {
   try {
     console.log(req.body)
-    const { firstName, lastName, email, password }: UserDocumentInt = req.body
+    const { firstName, lastName, email, password, role }: UserDocumentInt = req.body
     if(!firstName || !lastName || !email || !password) {
       return res.status(400).json({"message": "All credentials is required to create account"})
     }
@@ -17,11 +17,11 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(409).json({"message": "User with email already exists"})
     }
     const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = await createUserService({ firstName: firstName, lastName: lastName, email: email, password: hashedPassword })
+    const newUser = await createUserService({ firstName: firstName, lastName: lastName, email: email, password: hashedPassword, role: role })
     if(!newUser) {
       return res.status(400).json({"message": "Failed to register user"})
     }
-    const accessToken = jwt.sign({ _id: newUser?._id, name: newUser?.firstName }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7 days' })
+    const accessToken = jwt.sign({ _id: newUser?._id, name: newUser?.firstName, role: newUser.role }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7 days' })
     const responseData = { ...newUser, token: accessToken }
     console.log(responseData)
     return res.status(201).send(responseData)
@@ -47,7 +47,7 @@ export const handleLogin = async (req: Request, res: Response) => {
   if(!passwordMatch) {
     return res.status(400).json({"message": "Incorrect password"})
   }
-  const accessToken = jwt.sign({ _id: userAlreadyExists._id, name: userAlreadyExists.firstName }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7 days' })
+  const accessToken = jwt.sign({ _id: userAlreadyExists._id, name: userAlreadyExists.firstName, role: userAlreadyExists.role }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7 days' })
   const responseData = { ...userAlreadyExists, token: accessToken }
   console.log(responseData)
   return res.status(200).send(responseData)

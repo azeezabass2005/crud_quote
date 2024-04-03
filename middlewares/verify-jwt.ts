@@ -10,7 +10,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header('Authorization')?.split(' ')[1]
     if(!token) {
-      return res.status(401).json({"message": "User is unauthorized"})
+      return res.status(401).json({"message": "User is not authenticated"})
     }
     const secret = process.env.ACCESS_TOKEN_SECRET!;
     const decoded = jwt.verify(token, secret);
@@ -18,6 +18,6 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     next()
   } catch (error) {
     console.log(error)
-    res.status(401).json({"message": "User is unauthorized"})
+    res.status(401).json({"message": "User is unauthenticated"})
   }
 }

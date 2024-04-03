@@ -21,11 +21,11 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", authRouter)
 
-app.use("*", notfoundRouter)
-
 app.use(verifyJWT)
 
 app.use("/protected-route", protectedRouter)
+
+app.use("*", notfoundRouter)
 
 const port: string = process.env.PORT!
 
@@ -43,9 +43,3 @@ const startApp = async () => {
   }
 }
 startApp()
-// app.listen(port, async () => {
-//   try {
-//     const connect = await mongoose.connect(process.env.DATA_BASE_URI!) 
-//   }
-//   console.log(`server running on port: ${port}`)
-// })
