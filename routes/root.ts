@@ -9,4 +9,5 @@ router.get("/", verifyRole(["Admin"]), (req: Request, res: Response) => {
   return res.send(`User can access the protected route`)
 })
 
+
 export default router

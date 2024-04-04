@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import { verifyJWT } from './middlewares/verify-jwt'
+import uploadRouter from './routes/upload'
 
 const app: Application = express()
 
@@ -22,6 +23,9 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/auth", authRouter)
 
 app.use(verifyJWT)
+
+app.use("/upload", uploadRouter)
+
 
 app.use("/protected-route", protectedRouter)
 
