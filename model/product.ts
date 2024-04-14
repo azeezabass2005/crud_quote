@@ -19,7 +19,7 @@ interface Variation extends mongoose.Document {
   size?: string
   color?: string;
   price: number;
-  available: boolean;
+  quantityAvailable: number;
   image: string[]
 }
 
@@ -32,15 +32,17 @@ const variationSchema = new mongoose.Schema<Variation>({
     type: Number,
     required: true
   },
-  available: {
-    type: Boolean,
-    default: true
+  quantityAvailable: {
+    type: Number,
+    required: true
   },
   image: {
     type: [String],
     require: true
   }
 });
+
+export const VariationModel = mongoose.model("Variation", variationSchema)
 
 interface Product extends mongoose.Document {
   user: mongoose.Schema.Types.ObjectId,
