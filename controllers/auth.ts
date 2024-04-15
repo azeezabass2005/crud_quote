@@ -48,7 +48,13 @@ export const handleLogin = async (req: Request, res: Response) => {
     return res.status(400).json({"message": "Incorrect password"})
   }
   const accessToken = jwt.sign({ _id: userAlreadyExists._id, name: userAlreadyExists.firstName, role: userAlreadyExists.role }, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '7 days' })
-  const responseData = { ...userAlreadyExists, token: accessToken }
+  const responseData = { user: {
+    _id: userAlreadyExists._id,
+    firstName: userAlreadyExists.firstName,
+    lastName: userAlreadyExists.lastName,
+    email: userAlreadyExists.email,
+    role: userAlreadyExists.role,
+  }, token: accessToken }
   console.log(responseData)
   return res.status(200).send(responseData)
  } catch (error) {
