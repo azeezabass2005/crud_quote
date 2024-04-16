@@ -29,3 +29,14 @@ export const handleCreateProduct = async (req: CustomRequest, res: Response) => 
     throw error
   }
 }
+
+export const handleGetAllProduct = async (req: CustomRequest, res: Response) => {
+  try {
+    const allProducts = await ProductModel.find()
+    console.log(allProducts)
+    return res.status(200).send(allProducts)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
