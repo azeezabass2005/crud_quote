@@ -63,9 +63,27 @@ export const handleLogin = async (req: Request, res: Response) => {
  }
 }
 
-export const updateUser = async (req: Request, res: Response) => {
+export const handleUpdateUser = async (req: Request, res: Response) => {
   try {
-    return res.status(200).send("You attempted to update the user")
+    const { email, password, firstName, lastName } = req.body
+    if(!email && !password && !firstName && !lastName) {
+      return res.status(400).json({"message": "Credentials are required to update user"})
+    }
+    const userAlreadyExists = await UserModel.findOne({ email: email })
+    if(!userAlreadyExists) {
+      return res.status(400).json({"message": "User does not exist"})
+    }
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const updatedUserData = await UserModel.findByIdAndUpdate(userAlreadyExists._id, { email: email, password: hashedPassword, firstName: firstName, lastName: lastName })
+    const responseData = {
+      user: {
+        _id: updatedUserData?._id,
+        email: updatedUserData?.email,
+        firstName: updatedUserData?.firstName,
+        lastName: updatedUserData?.lastName
+      }
+    }
+    return res.status(200).send(responseData)
   } catch (error) {
     console.log(error)
     throw error
