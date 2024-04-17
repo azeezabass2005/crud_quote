@@ -7,6 +7,4 @@ router.post("/register", createUser)
 
 router.post("/login", handleLogin)
 
-router.patch("/update-info", handleUpdateUser)
-
 export default router

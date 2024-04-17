@@ -3,7 +3,7 @@ import 'dotenv/config'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export interface CustomRequest extends Request {
-  token:string | JwtPayload
+  token: JwtPayload | string
 }
 
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {

@@ -1,13 +1,14 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import ProductModel from "../model/product";
 import { CustomRequest } from "../middlewares/verify-jwt";
 
 
-export const handleCreateProduct = async (req: CustomRequest, res: Response) => {
+export const handleCreateProduct = async (req: Request, res: Response) => {
   try {
     const { name, description, variations } = req.body
     // @ts-ignore
-    const user = req?.token?._id
+    const user = (req as CustomRequest)?.token?._id
+
     if(!user) {
       return res.status(401).json({"message": "UnAuthorized"})
     }
@@ -30,7 +31,7 @@ export const handleCreateProduct = async (req: CustomRequest, res: Response) => 
   }
 }
 
-export const handleGetAllProduct = async (req: CustomRequest, res: Response) => {
+export const handleGetAllProduct = async (req: Request, res: Response) => {
   try {
     const allProducts = await ProductModel.find()
     console.log(allProducts)
